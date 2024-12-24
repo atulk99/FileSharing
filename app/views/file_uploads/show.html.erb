@@ -1,0 +1,47 @@
+<!-- app/views/file_uploads/show.html.erb -->
+
+<h1>File Details</h1>
+
+<div>
+  <p><strong>Title:</strong> <%= @file_upload.title %></p>
+  <p><strong>Description:</strong> <%= @file_upload.description %></p>
+  <p><strong>Uploaded At:</strong> <%= @file_upload.created_at.strftime("%B %d, %Y at %I:%M %p") %></p>
+  <p><strong>File Type:</strong> <%= @file_upload.file.content_type %></p>
+  <p><strong>File Size:</strong> <%= number_to_human_size(@file_upload.file.byte_size) %></p>
+  
+  <!-- Public URL with Copy Button -->
+  <p>
+    <strong>Public URL:</strong> 
+    <input type="text" id="public-url" value="<%= public_file_url(@file_upload.public_token) %>" readonly>
+    <button id="copy-button" class="btn btn-secondary">Copy URL</button>
+  </p>
+</div>
+
+<div>
+  <%= link_to 'Download File', rails_blob_path(@file_upload.file, disposition: 'attachment'), class: 'btn btn-primary' %>
+</div>
+
+<div>
+  <%= link_to 'Back to File List', file_uploads_path, class: 'btn btn-secondary' %>
+</div>
+
+<!-- JavaScript to Copy URL -->
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const copyButton = document.getElementById("copy-button");
+    const publicUrlInput = document.getElementById("public-url");
+
+    copyButton.addEventListener("click", function() {
+      // Select the URL text
+      publicUrlInput.select();
+      publicUrlInput.setSelectionRange(0, 99999); // For mobile devices
+
+      // Copy to clipboard
+      navigator.clipboard.writeText(publicUrlInput.value).then(() => {
+        alert("URL copied to clipboard!");
+      }).catch(err => {
+        console.error("Failed to copy text: ", err);
+      });
+    });
+  });
+</script>

@@ -1,0 +1,11 @@
+<h1>Your Files</h1>
+
+<%= link_to 'Upload New File', new_file_upload_path, class: 'btn btn-primary' %>
+
+<% @file_uploads.each do |file| %>
+  <div>
+    <p><strong>Title:</strong> <%= file.title %></p>
+    <p><strong>Description:</strong> <%= file.description %></p>
+    <p><%= link_to 'View Details', file_upload_path(file) %></p>
+  </div>
+<% end %>

@@ -1,0 +1,5 @@
+<!-- app/views/file_uploads/public_show.html.erb -->
+<h1>File Details</h1>
+<p><strong>Title:</strong> <%= @file_upload.title %></p>
+<p><strong>Description:</strong> <%= @file_upload.description %></p>
+<p><%= link_to "Download File", rails_blob_path(@file_upload.file, disposition: 'attachment') %></p>
